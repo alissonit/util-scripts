@@ -1,16 +1,16 @@
 # GitHub Repo Manager
 
-Gerencia repositórios do GitHub via API - torna repos privados/públicos e remove forks.
+Manage GitHub repositories via API - set repos to private/public and remove forks.
 
-## O que faz
+## What it does
 
-- **Set Privacy**: Muda a visibilidade dos repositórios (privado ou público)
-- **Remove Forks**: Deleta repositórios que são forks
-- **Filtro Protegido**: Exclui repos com `fiap` ou nomeado `alissonit` por padrão
+- **Set Privacy**: Changes repository visibility (private or public)
+- **Remove Forks**: Deletes repositories that are forks
+- **Protected Filter**: Skips repos containing `fiap` or named `alissonit` by default
 
-## Instalação
+## Installation
 
-### Pré-requisitos
+### Prerequisites
 ```bash
 # macOS
 brew install curl jq
@@ -22,79 +22,79 @@ sudo apt-get install curl jq
 sudo dnf install curl jq
 ```
 
-## Configuração
+## Configuration
 
-1. Crie um Personal Access Token em: https://github.com/settings/tokens
-   - Selecione escopos: `repo`, `delete_repo`
+1. Create a Personal Access Token at: https://github.com/settings/tokens
+   - Select scopes: `repo`, `delete_repo`
 
-2. Configure a variável de ambiente:
+2. Set the environment variable:
 ```bash
-export GITHUB_TOKEN="ghp_seu_token_aqui"
+export GITHUB_TOKEN="ghp_your_token_here"
 ```
 
-## Como usar
+## Usage
 
-### Tornar todos os repos privados (exceto protegidos)
+### Make all repos private (except protected ones)
 ```bash
 ./script.sh --action set-privacy --mode private
 ```
 
-### Tornar todos os repos públicos (exceto protegidos)
+### Make all repos public (except protected ones)
 ```bash
 ./script.sh --action set-privacy --mode public
 ```
 
-### Deletar todos os forks (exceto protegidos)
+### Delete all forks (except protected ones)
 ```bash
 ./script.sh --action remove-forks
 ```
 
-### Processar apenas repos protegidos
+### Process only protected repos
 ```bash
-# Tornar repos "fiap" e "alissonit" privados
+# Make "fiap" and "alissonit" repos private
 ./script.sh --action set-privacy --mode private --protect-only
 
-# Deletar forks apenas dos repos protegidos
+# Delete forks only from protected repos
 ./script.sh --action remove-forks --protect-only
 ```
 
-### Usar outro username
+### Use another username
 ```bash
-./script.sh --action set-privacy --mode private --user outro-usuario
+./script.sh --action set-privacy --mode private --user other-user
 ```
 
-## Repos Protegidos
+## Protected Repos
 
-Por padrão, repos são protegidos se:
-- Contêm `fiap` no nome (ex: `fiap-project`, `my-fiap-repo`)
-- São nomeados exatamente `alissonit` (não afeta `alissonit-project`)
+By default, repos are protected if:
+- They contain `fiap` in the name (e.g. `fiap-project`, `my-fiap-repo`)
+- They are named exactly `alissonit` (does not affect `alissonit-project`)
 
-## Exemplos Práticos
+## Practical Examples
 
 ```bash
-# Scenario 1: Deixar tudo privado, exceto fiap e alissonit
-export GITHUB_TOKEN="seu_token"
+# Scenario 1: Make everything private except fiap and alissonit
+export GITHUB_TOKEN="your_token"
 ./script.sh --action set-privacy --mode private
 
-# Scenario 2: Depois, tornar os repos fiap públicos novamente
+# Scenario 2: Then make the fiap repos public again
 ./script.sh --action set-privacy --mode public --protect-only
 
-# Scenario 3: Limpar forks que não são protegidos
+# Scenario 3: Remove forks that are not protected
 ./script.sh --action remove-forks
 ```
 
 ## Flags
 
-| Flag | Descrição |
-|------|-----------|
-| `--action` | `remove-forks` ou `set-privacy` (obrigatório) |
-| `--mode` | `private` ou `public` (obrigatório para set-privacy) |
-| `--protect-only` | Processa apenas repos protegidos |
-| `--user` | Username do GitHub (padrão: alissonit) |
+| Flag | Description |
+|------|-------------|
+| `--action` | `remove-forks` or `set-privacy` (required) |
+| `--mode` | `private` or `public` (required for set-privacy) |
+| `--protect-only` | Process only protected repos |
+| `--user` | GitHub username (default: alissonit) |
 
-## Avisos
+## Warnings
 
-⚠️ **CUIDADO**: 
-- `remove-forks` deleta permanentemente os repositórios
-- Não reverta com Ctrl+C durante a execução
-- Teste com `--protect-only` primeiro
+⚠️ **CAUTION**:
+- `remove-forks` permanently deletes repositories
+- Do not interrupt the script with Ctrl+C during execution
+- Test with `--protect-only` first
